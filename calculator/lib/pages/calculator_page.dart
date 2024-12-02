@@ -15,35 +15,41 @@ class _CalculatorPageState extends State<CalculatorPage> {
 void _buttonPressed(String buttonText) {
   setState(() {
     if (buttonText == "=") {
-      // Avaliar a expressão
       try {
         _output = _evaluateExpression(_output);
       } catch (e) {
         _output = "Erro";
       }
     } else if (buttonText == "+/-") {
-      // Inverter o sinal do número atual
       if (_output != "0") {
         if (_output.startsWith("-")) {
-          _output = _output.substring(1); // Remove o sinal de negativo
+          _output = _output.substring(1);
         } else {
-          _output = "-$_output"; // Adiciona o sinal de negativo
+          _output = "-$_output";
         }
       }
+    } else if (buttonText == "%") {
+      // Calcula o valor percentual
+      try {
+        double value = double.parse(_output.replaceAll(',', '.')) / 100;
+        _output = value.toString().replaceAll('.', ',');
+      } catch (e) {
+        _output = "Erro";
+      }
     } else if (buttonText == "AC") {
-      _output = "0"; // Reseta a calculadora
+      _output = "0";
     } else if (buttonText == "C") {
-      // Remove o último caractere
       _output = _output.length > 1 ? _output.substring(0, _output.length - 1) : "0";
     } else {
       if (_output == "0") {
-        _output = buttonText; // Substitui o "0" inicial
+        _output = buttonText;
       } else {
-        _output += buttonText; // Adiciona o botão pressionado
+        _output += buttonText;
       }
     }
   });
 }
+
 
 
 String _evaluateExpression(String expression) {
@@ -61,11 +67,17 @@ String _evaluateExpression(String expression) {
     // Cria um modelo de contexto (para variáveis, se necessário)
     ContextModel cm = ContextModel();
 
-    // Avalia a expressão e retorna o valor
+    // Avalia a expressão
     double eval = exp.evaluate(EvaluationType.REAL, cm);
 
-    // Retorna o valor com ponto ou vírgula, dependendo do formato desejado
-    return eval.toString().replaceAll('.', ',');
+    // Verifica se o resultado é um inteiro
+    if (eval == eval.toInt()) {
+      // Retorna como inteiro (sem casas decimais)
+      return eval.toInt().toString();
+    } else {
+      // Retorna como número decimal, com ponto ou vírgula
+      return eval.toString().replaceAll('.', ',');
+    }
   } catch (e) {
     return "Erro";
   }
