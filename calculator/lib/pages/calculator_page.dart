@@ -86,7 +86,7 @@ String _evaluateExpression(String expression) {
 // Função para determinar a cor do botão
 Color _getButtonColor(String buttonText) {
   if (buttonText == _currentOperator) {
-    return Colors.blue; // Cor azul para o operador selecionado
+    return Colors.white; // Cor azul para o operador selecionado
   } else if (buttonText == '=' || buttonText == '+' || buttonText == '-' || 
              buttonText == '×' || buttonText == '÷') {
     return Colors.orange; // Cor laranja para os operadores
@@ -100,7 +100,9 @@ Color _getButtonColor(String buttonText) {
 
   // Função para determinar a cor do texto do botão
   Color _getTextColor(String buttonText) {
-    if (buttonText == 'AC' || buttonText == '+/-' || buttonText == '%') {
+    if (buttonText == _currentOperator) {
+    return Colors.orange;
+    } else if (buttonText == 'AC' || buttonText == '+/-' || buttonText == '%') {
       return Colors.black; // Cor preta para AC, +/- e %
     } else {
       return Colors.white; // Cor branca para os outros botões
@@ -156,7 +158,7 @@ Color _getButtonColor(String buttonText) {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: _getButtonColor(buttonText),
-                    borderRadius: BorderRadius.circular(40),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                   child: TextButton(
                     onPressed: () => _buttonPressed(buttonText),
@@ -177,7 +179,7 @@ Color _getButtonColor(String buttonText) {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: _getButtonColor(buttonText),
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(100),
                 ),
                 child: TextButton(
                   onPressed: () => _buttonPressed(buttonText),
