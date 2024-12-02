@@ -8,49 +8,67 @@ class CalculatorPage extends StatefulWidget {
   _CalculatorPageState createState() => _CalculatorPageState();
 }
 
+
 class _CalculatorPageState extends State<CalculatorPage> {
   String _output = "0";
 
-  void _buttonPressed(String buttonText) {
-    setState(() {
-      if (buttonText == "=") {
-        // Avaliar a expressão
-        try {
-          _output = _evaluateExpression(_output);
-        } catch (e) {
-          _output = "Erro";
-        }
-      } else if (buttonText == "AC") {
-        _output = "0"; // Limpa toda a tela como o botão "AC"
-      } else if (buttonText == "C") {
-        _output = "0"; // Limpa a tela
-      } else {
-        if (_output == "0") {
-          _output = buttonText; // Adiciona o primeiro dígito
-        } else {
-          _output += buttonText; // Continua a expressão
-        }
+void _buttonPressed(String buttonText) {
+  setState(() {
+    if (buttonText == "=") {
+      // Avaliar a expressão
+      try {
+        _output = _evaluateExpression(_output);
+      } catch (e) {
+        _output = "Erro";
       }
-    });
-  }
-
-  String _evaluateExpression(String expression) {
-    try {
-      // Parse a expressão fornecida
-      Parser p = Parser();
-      Expression exp = p.parse(expression);
-
-      // Cria um modelo de contexto (para variáveis, se necessário)
-      ContextModel cm = ContextModel();
-
-      // Avalia a expressão e retorna o valor
-      double eval = exp.evaluate(EvaluationType.REAL, cm);
-
-      return eval.toString();
-    } catch (e) {
-      return "Erro";
+    }
+    else if (buttonText == "+/-") {
+  if (_output != "0") {
+    // Inverte o sinal do número atual
+    if (_output.startsWith("-")) {
+      _output = _output.substring(1); // Remove o sinal de negativo
+    } else {
+      _output = "-$_output"; // Adiciona o sinal de negativo
     }
   }
+}
+ else if (buttonText == "AC") {
+      _output = "0"; // Reseta a calculadora
+    } else if (buttonText == "C") {
+      // Remove o último caractere
+      _output = _output.length > 1 ? _output.substring(0, _output.length - 1) : "0";
+    } else {
+      if (_output == "0") {
+        _output = buttonText; // Substitui o "0" inicial
+      } else {
+        _output += buttonText; // Adiciona o botão pressionado
+      }
+    }
+  });
+}
+
+
+String _evaluateExpression(String expression) {
+  try {
+    // Substituir os operadores visuais pelos operadores matemáticos
+    expression = expression.replaceAll('×', '*').replaceAll('÷', '/');
+
+    // Parse a expressão fornecida
+    Parser p = Parser();
+    Expression exp = p.parse(expression);
+
+    // Cria um modelo de contexto (para variáveis, se necessário)
+    ContextModel cm = ContextModel();
+
+    // Avalia a expressão e retorna o valor
+    double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+    return eval.toString();
+  } catch (e) {
+    return "Erro";
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
