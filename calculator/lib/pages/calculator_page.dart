@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/calculator_button.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class CalculatorPage extends StatefulWidget {
@@ -75,32 +74,72 @@ class _CalculatorPageState extends State<CalculatorPage> {
           // Linhas de botões
 GridView.builder(
   shrinkWrap: true,
-  padding: const EdgeInsets.all(20),
+  padding: const EdgeInsets.all(10),
   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 4, // 4 colunas
+    crossAxisCount: 4, // 4 colunas no total
     crossAxisSpacing: 10.0,
     mainAxisSpacing: 10.0,
   ),
-  itemCount: 19, // Total de 18 botões (AC, +/- , %, /, 7-9, 4-6, 1-3, +, -, 0, ,, e =)
+  itemCount: 19, // Total de botões
   itemBuilder: (context, index) {
-    String buttonText;
     List<String> buttons = [
-      'AC', '+/-', '%', '/',
-      '7', '8', '9', 'x',
+      'AC', '+/-', '%', '÷',
+      '7', '8', '9', '×',
       '4', '5', '6', '-',
       '1', '2', '3', '+',
-      '0', ',', '='  // Incluindo o botão = no final
+      '0', ',', '=', // Linha final com botão "0", vírgula e igual
     ];
-    buttonText = buttons[index];
 
-    return CalculatorButton(
-      buttonText: buttonText,
-      onPressed: () => _buttonPressed(buttonText),
+    String buttonText = buttons[index];
+
+    // Verifica se é o botão "0" para ajustar o tamanho
+    if (buttonText == '0') {
+      return Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: TextButton(
+          onPressed: () => _buttonPressed(buttonText),
+          child: Text(
+            buttonText,
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        width: MediaQuery.of(context).size.width * 0.4, // Ocupa duas colunas
+      );
+    }
+
+    // Botão padrão
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: buttonText == '=' || buttonText == '+' || buttonText == '-' ||
+                buttonText == '×' || buttonText == '÷'
+            ? Colors.orange
+            : Colors.grey[800],
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: TextButton(
+        onPressed: () => _buttonPressed(buttonText),
+        child: Text(
+          buttonText,
+          style: TextStyle(
+            fontSize: 30,
+            color: buttonText == '=' || buttonText == '+' || buttonText == '-' ||
+                    buttonText == '×' || buttonText == '÷'
+                ? Colors.white
+                : Colors.white,
+          ),
+        ),
+      ),
     );
   },
-)
-
-
+),
 
         ],
       ),
