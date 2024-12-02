@@ -125,7 +125,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
       ),
       backgroundColor: Colors.black,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end, // Move os widgets para baixo
         children: [
           // Tela de exibição da calculadora
           Padding(
@@ -141,7 +141,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
           // Linhas de botões
           GridView.builder(
-            shrinkWrap: true,
+            shrinkWrap: true, // Ajusta o tamanho do GridView ao conteúdo
+            physics: const NeverScrollableScrollPhysics(), // Desativa a rolagem
             padding: const EdgeInsets.all(10),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4, // 4 colunas no total
