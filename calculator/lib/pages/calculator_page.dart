@@ -83,16 +83,20 @@ String _evaluateExpression(String expression) {
 
 
   // Função para determinar a cor do botão
-  Color _getButtonColor(String buttonText) {
-    if (buttonText == '=' || buttonText == '+' || buttonText == '-' || 
-        buttonText == '×' || buttonText == '÷') {
-      return Colors.orange;
-    } else if (buttonText == 'AC' || buttonText == '+/-' || buttonText == '%') {
-      return Color.fromARGB(255, 165, 165, 165); // Cor RGB(165, 165, 165)
-    } else {
-      return Colors.grey[800]!; // Cor cinza escura para os outros botões
-    }
+// Função para determinar a cor do botão
+Color _getButtonColor(String buttonText) {
+  if (buttonText == _currentOperator) {
+    return Colors.blue; // Cor azul para o operador selecionado
+  } else if (buttonText == '=' || buttonText == '+' || buttonText == '-' || 
+             buttonText == '×' || buttonText == '÷') {
+    return Colors.orange; // Cor laranja para os operadores
+  } else if (buttonText == 'AC' || buttonText == '+/-' || buttonText == '%') {
+    return Color.fromARGB(255, 165, 165, 165); // Cor RGB(165, 165, 165)
+  } else {
+    return Colors.grey[800]!; // Cor cinza escura para os outros botões
   }
+}
+
 
   // Função para determinar a cor do texto do botão
   Color _getTextColor(String buttonText) {
