@@ -74,6 +74,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   String _evaluateExpression(String expression) {
     try {
+      expression = expression.replaceAll(',', '.');
       expression = expression.replaceAll('×', '*').replaceAll('÷', '/');
       Parser p = Parser();
       Expression exp = p.parse(expression);
@@ -81,7 +82,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
       double eval = exp.evaluate(EvaluationType.REAL, cm);
 
       // Retorna o resultado como inteiro ou decimal
-      return eval == eval.toInt() ? eval.toInt().toString() : eval.toString();
+      return eval == eval.toInt()
+          ? eval.toInt().toString().replaceAll('.', ',')
+          : eval.toString().replaceAll('.', ',');
     } catch (e) {
       return "Erro";
     }
