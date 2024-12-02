@@ -21,18 +21,16 @@ void _buttonPressed(String buttonText) {
       } catch (e) {
         _output = "Erro";
       }
-    }
-    else if (buttonText == "+/-") {
-  if (_output != "0") {
-    // Inverte o sinal do número atual
-    if (_output.startsWith("-")) {
-      _output = _output.substring(1); // Remove o sinal de negativo
-    } else {
-      _output = "-$_output"; // Adiciona o sinal de negativo
-    }
-  }
-}
- else if (buttonText == "AC") {
+    } else if (buttonText == "+/-") {
+      // Inverter o sinal do número atual
+      if (_output != "0") {
+        if (_output.startsWith("-")) {
+          _output = _output.substring(1); // Remove o sinal de negativo
+        } else {
+          _output = "-$_output"; // Adiciona o sinal de negativo
+        }
+      }
+    } else if (buttonText == "AC") {
       _output = "0"; // Reseta a calculadora
     } else if (buttonText == "C") {
       // Remove o último caractere
@@ -50,7 +48,10 @@ void _buttonPressed(String buttonText) {
 
 String _evaluateExpression(String expression) {
   try {
-    // Substituir os operadores visuais pelos operadores matemáticos
+    // Substituir vírgulas por pontos
+    expression = expression.replaceAll(',', '.');
+    
+    // Substituir "×" por "*" e "÷" por "/"
     expression = expression.replaceAll('×', '*').replaceAll('÷', '/');
 
     // Parse a expressão fornecida
@@ -63,11 +64,13 @@ String _evaluateExpression(String expression) {
     // Avalia a expressão e retorna o valor
     double eval = exp.evaluate(EvaluationType.REAL, cm);
 
-    return eval.toString();
+    // Retorna o valor com ponto ou vírgula, dependendo do formato desejado
+    return eval.toString().replaceAll('.', ',');
   } catch (e) {
     return "Erro";
   }
 }
+
 
 
   @override
