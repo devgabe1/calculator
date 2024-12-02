@@ -153,26 +153,28 @@ GridView.builder(
     // Botão padrão
     return Container(
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: buttonText == '=' || buttonText == '+' || buttonText == '-' ||
-                buttonText == '×' || buttonText == '÷'
-            ? Colors.orange
-            : Colors.grey[800],
-        borderRadius: BorderRadius.circular(40),
-      ),
+decoration: BoxDecoration(
+  color: buttonText == '=' || buttonText == '+' || buttonText == '-' ||
+          buttonText == '×' || buttonText == '÷'
+      ? Colors.orange
+      : buttonText == 'AC' || buttonText == '+/-' || buttonText == '%'
+          ? Color.fromARGB(255, 165, 165, 165) // Cor RGB(165, 165, 165)
+          : Colors.grey[800],
+  borderRadius: BorderRadius.circular(40),
+),
+
       child: TextButton(
         onPressed: () => _buttonPressed(buttonText),
         child: Text(
           buttonText,
-          style: TextStyle(
-            fontSize: 30,
-            color: buttonText == '=' || buttonText == '+' || buttonText == '-' ||
-                    buttonText == '×' || buttonText == '÷'
-                ? Colors.white
-                : Colors.white,
-          ),
-        ),
-      ),
+    style: TextStyle(
+      fontSize: 30,
+      color: buttonText == 'AC' || buttonText == '+/-' || buttonText == '%'
+          ? Colors.black // Cor preta para AC, +/- e %
+          : Colors.white, // Cor branca para os outros botões
+    ),
+  ),
+),
     );
   },
 ),
