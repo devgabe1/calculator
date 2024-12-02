@@ -89,7 +89,6 @@ String _evaluateExpression(String expression) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculadora'),
         backgroundColor: Colors.black,
       ),
       backgroundColor: Colors.black,
@@ -97,13 +96,17 @@ String _evaluateExpression(String expression) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Tela de exibição da calculadora
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              _output,
-              style: const TextStyle(fontSize: 48.0, color: Colors.white),
-            ),
-          ),
+Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: Align(
+    alignment: Alignment.centerRight, // Alinha o texto à direita
+    child: Text(
+      _output,
+      style: const TextStyle(fontSize: 48.0, color: Colors.white),
+    ),
+  ),
+),
+
           // Linhas de botões
 GridView.builder(
   shrinkWrap: true,
