@@ -21,6 +21,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
         } catch (e) {
           _output = "Erro";
         }
+      } else if (buttonText == "AC") {
+        _output = "0"; // Limpa toda a tela como o botão "AC"
       } else if (buttonText == "C") {
         _output = "0"; // Limpa a tela
       } else {
@@ -51,79 +53,56 @@ class _CalculatorPageState extends State<CalculatorPage> {
     }
   }
 
-  Color _getButtonColor(String text) {
-    if (text == "=") return Colors.green; // Resultado
-    if (text == "C") return Colors.red; // Limpar
-    if ("/*-+".contains(text)) return Colors.orange; // Operadores
-    return Colors.blue; // Números
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calculadora'),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.black,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blueGrey, Colors.black],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      backgroundColor: Colors.black,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Tela de exibição da calculadora
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              _output,
+              style: const TextStyle(fontSize: 48.0, color: Colors.white),
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Tela de exibição
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  _output,
-                  style: const TextStyle(
-                    fontSize: 48.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            // Grade de botões
-            GridView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(20),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-              ),
-              itemCount: 16,
-              itemBuilder: (context, index) {
-                List<String> buttons = [
-                  '7', '8', '9', '/',
-                  '4', '5', '6', '*',
-                  '1', '2', '3', '-',
-                  'C', '0', '=', '+'
-                ];
-                String buttonText = buttons[index];
+          // Linhas de botões
+GridView.builder(
+  shrinkWrap: true,
+  padding: const EdgeInsets.all(20),
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 4, // 4 colunas
+    crossAxisSpacing: 10.0,
+    mainAxisSpacing: 10.0,
+  ),
+  itemCount: 19, // Total de 18 botões (AC, +/- , %, /, 7-9, 4-6, 1-3, +, -, 0, ,, e =)
+  itemBuilder: (context, index) {
+    String buttonText;
+    List<String> buttons = [
+      'AC', '+/-', '%', '/',
+      '7', '8', '9', 'x',
+      '4', '5', '6', '-',
+      '1', '2', '3', '+',
+      '0', ',', '='  // Incluindo o botão = no final
+    ];
+    buttonText = buttons[index];
 
-                return CalculatorButton(
-                  buttonText: buttonText,
-                  buttonColor: _getButtonColor(buttonText),
-                  onPressed: () => _buttonPressed(buttonText),
-                );
-              },
-            ),
-          ],
-        ),
+    return CalculatorButton(
+      buttonText: buttonText,
+      onPressed: () => _buttonPressed(buttonText),
+    );
+  },
+)
+
+
+
+        ],
       ),
     );
   }
